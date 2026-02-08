@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Special For Ana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Nunito:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="bg-elements" id="bg-elements"></div>
+
+    <div id="overlay">
+        <div class="heart-beat">🎁</div>
+        <h2 class="overlay-title">Special Gift</h2>
+        <button class="btn-open" onclick="openGift()">Buka Sekarang</button>
+    </div>
+
+    <div id="next-popup" class="popup-overlay">
+        <div class="popup-box">
+            <h3>Masih ada satu lagi... ✨</h3>
+            <p>Aku punya kenangan versi scrapbook digital buat kamu.</p>
+            <div class="popup-buttons">
+                <button class="btn-secondary" onclick="closePopup()">Lihat ini dulu</button>
+                <button class="btn-primary" onclick="window.location.href='test.html'">Buka Scrapbook ➡️</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <section class="hero" data-aos="fade-down" data-aos-duration="1200">
+            <img src="/foto/main.jpeg" alt="Profile" class="hero-img">
+            <h1 class="main-title">Happy Valentine's Day</h1>
+            <h2>14 Februari 2026</h2>
+            
+            <div class="calendar-card">
+                <div class="cal-header">October 2025</div>
+                <div class="cal-grid">
+                    <div class="day-name">Su</div><div class="day-name">Mo</div><div class="day-name">Tu</div><div class="day-name">We</div><div class="day-name">Th</div><div class="day-name">Fr</div><div class="day-name">Sa</div>
+                    <div class="empty"></div><div class="empty"></div><div class="empty"></div><div>1</div><div>2</div><div>3</div><div>4</div>
+                    <div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div>
+                    <div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div>
+                    <div>19</div><div>20</div><div>21</div><div>22</div><div>23</div><div>24</div><div>25</div>
+                    <div>26</div>
+                    <div class="special-date">27<span class="heart-mark">💙</span></div>
+                    <div>28</div><div>29</div><div>30</div><div>31</div>
+                </div>
+            </div>
+            <p class="hero-text">27 Oktober 2025.</p>
+            <div class="time-counter">
+                <small>Kita sudah bersama selama:</small>
+                <div id="time-together">Menghitung waktu...</div>
+            </div>
+        </section>
+
+        <h2 class="section-title" data-aos="fade-up">Our Memories</h2>
+        <div class="gallery-grid">
+            <div class="polaroid" data-aos="fade-up"><img src="/foto/foto1.jpeg"><div class="caption">Awal cerita kita</div></div>
+            <div class="polaroid" data-aos="fade-up" data-aos-delay="100"><img src="/foto/foto2.jpeg"><div class="caption">Foto pertama kita</div></div>
+            <div class="polaroid" data-aos="fade-up" data-aos-delay="200"><img src="/foto/foto3.jpeg"><div class="caption">Moment terlucu</div></div>
+            <div class="polaroid" data-aos="fade-up"><img src="/foto/foto4.jpeg"><div class="caption">Everything with you</div></div>
+            <div class="polaroid" data-aos="fade-up" data-aos-delay="100"><img src="/foto/foto5.jpeg"><div class="caption">Pasir menjadi saksi</div></div>
+            <div class="polaroid" data-aos="fade-up" data-aos-delay="100"><img src="/foto/foto6.jpeg"><div class="caption">💙</div></div>
+        </div>
+
+        <h2 class="section-title" data-aos="fade-up">A Letter for You</h2>
+        <div class="envelope-container" data-aos="fade-up" onclick="toggleEnvelope(this)">
+            <div class="envelope-body">
+                <div class="envelope-flap"><div class="seal">💙</div></div>
+                <div class="envelope-pocket"></div>
+                <div class="letter-paper">
+                    <div class="stamp-inner">💙</div>
+                    <div class="letter-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center;">
+                        <h3 style="font-family: 'Patrick Hand', cursive; color: var(--primary-blue); margin-bottom: 10px; margin-top: 20px;">Surat Untuk Ana Tercintaaaa</h3>
+                        <a href="letter.html" class="btn-theme" style="padding: 8px 20px; font-size: 0.9rem; text-decoration: none;">Baca Surat 💌</a>
+                    </div>
+                </div>
+            </div>
+            <p class="hint-text">Tap to open</p>
+        </div>
+
+        <footer>
+            <h2 class="section-title" style="margin-bottom: 20px; font-size: 2rem;">Explore Our Love</h2>
+            <div class="btn-nav-group">
+                <a href="timeline.html" class="btn-theme"><i class="fas fa-history"></i> Jejak Kita</a>
+                <a href="bucketlist.html" class="btn-theme"><i class="fas fa-list-ul"></i> Wishlist</a>
+                <a href="coupon.html" class="btn-theme"><i class="fas fa-ticket-alt"></i> Kupon</a>
+            </div>
+            <div style="margin-top: 30px;">
+                <button class="btn-theme active" onclick="showPopup()" style="padding: 15px 40px; font-size: 1.1rem;"><i class="fas fa-heart"></i> Buka Scrapbook Digital</button>
+            </div>
+            <p style="margin-top:40px; font-size: 0.9rem; opacity: 0.7;">Made with 💙 specifically for Ana.</p>
+        </footer>
+    </div>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
+

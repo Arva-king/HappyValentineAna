@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Coupons 🎟️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #5a9cec;
+            --deep-blue: #2c3e50;
+            --danger-red: #ff7675;
+            --success-green: #2ecc71;
+        }
+        body { font-family: 'Nunito', sans-serif; background-color: #f0f8ff; margin: 0; padding-bottom: 50px; }
+        
+        .nav-back { 
+            position: fixed; top: 20px; left: 20px; z-index: 100;
+            background: white; color: var(--primary-blue); border: 2px solid var(--primary-blue);
+            padding: 8px 15px; border-radius: 50px; text-decoration: none; font-weight: bold;
+            transition: 0.3s;
+        }
+        .nav-back:hover { background: var(--primary-blue); color: white; }
+
+        header { text-align: center; margin-top: 50px; margin-bottom: 40px; }
+        h1 { font-family: 'Patrick Hand', cursive; font-size: 3rem; color: var(--deep-blue); margin: 0; }
+        p { color: #666; }
+
+        .coupon-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px; max-width: 1000px; margin: 0 auto; padding: 0 20px;
+        }
+        .coupon {
+            background: white; border-radius: 15px; overflow: hidden;
+            display: flex; flex-direction: column;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+            border: 2px dashed var(--primary-blue); 
+            transition: transform 0.3s;
+        }
+        .coupon:hover { transform: translateY(-5px); }
+
+        .coupon-header {
+            background: var(--primary-blue); color: white; padding: 15px; text-align: center;
+            font-weight: bold; text-transform: uppercase; letter-spacing: 2px;
+        }
+        .coupon-body {
+            padding: 20px; text-align: center; flex: 1;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .coupon-body h2 { font-family: 'Patrick Hand', cursive; font-size: 2rem; margin: 10px 0; color: #333; }
+        .coupon-body p { font-size: 0.9rem; color: #888; }
+        
+        .btn-claim {
+            background: var(--deep-blue); color: white; border: none; padding: 10px 20px;
+            border-radius: 5px; cursor: pointer; margin-top: 15px; font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-claim:hover { background: var(--danger-red); }
+
+        .modal-overlay {
+            display: none; 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); 
+            z-index: 1000;
+            justify-content: center; align-items: center;
+            backdrop-filter: blur(3px);
+        }
+
+        .modal-box {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            border: 3px dashed var(--primary-blue);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            animation: popUp 0.3s ease-out;
+            position: relative;
+        }
+
+        @keyframes popUp {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-box h3 {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 1.5rem; color: #666; margin: 10px 0 0 0;
+        }
+
+        .modal-coupon-title {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 2.2rem;
+            color: var(--primary-blue);
+            margin: 5px 0 15px 0;
+            text-shadow: 1px 1px 0px #eee;
+        }
+
+        .modal-text {
+            font-size: 0.95rem; color: #555; margin-bottom: 20px;
+        }
+
+        .modal-buttons {
+            display: flex; gap: 10px; justify-content: center; margin-top: 10px;
+        }
+
+        .btn-modal {
+            padding: 10px 25px; border-radius: 50px; border: none; font-weight: bold; cursor: pointer; font-size: 1rem; transition: 0.2s;
+        }
+        
+        .btn-yes { background: var(--primary-blue); color: white; }
+        .btn-yes:hover { background: #4a8cdb; transform: scale(1.05); }
+        
+        .btn-no { background: #e0e0e0; color: #333; }
+        .btn-no:hover { background: #ccc; }
+
+        .modal-icon {
+            font-size: 3rem; color: var(--danger-red); margin-bottom: 5px;
+            animation: heartBeat 1.5s infinite;
+        }
+        @keyframes heartBeat {
+            0% { transform: scale(1); } 14% { transform: scale(1.3); } 28% { transform: scale(1); }
+            42% { transform: scale(1.3); } 70% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-elements" id="bg-elements"></div>
+    <a href="index.html" class="nav-back"><i class="fas fa-arrow-left"></i> Home</a>
+
+    <header>
+        <h1>Love Coupons</h1>
+        <p>Klaim kupon ini kapanpun kamu butuh, Sayang! 💙</p>
+    </header>
+
+    <div class="coupon-grid">
+        <div class="coupon">
+            <div class="coupon-header">VOUCHER #001</div>
+            <div class="coupon-body">
+                <i class="fas fa-utensils fa-3x" style="color:#5a9cec"></i>
+                <h2>Traktir Makan</h2>
+                <p>Valid untuk: Makanan apa aja yang kamu mau.</p>
+                <button class="btn-claim" onclick="openModal(this)">KLAIM SEKARANG</button>
+            </div>
+        </div>
+        <div class="coupon">
+            <div class="coupon-header">VOUCHER #002</div>
+            <div class="coupon-body">
+                <i class="fas fa-angry fa-3x" style="color:#ff7675"></i>
+                <h2>Bebas Ngambek</h2>
+                <p>Valid untuk: Aku gak boleh bales marah 1 jam.</p>
+                <button class="btn-claim" onclick="openModal(this)">KLAIM SEKARANG</button>
+            </div>
+        </div>
+        <div class="coupon">
+            <div class="coupon-header">VOUCHER #003</div>
+            <div class="coupon-body">
+                <i class="fas fa-hand-holding-heart fa-3x" style="color:#55efc4"></i>
+                <h2>Problem Solver</h2>
+                <p>Valid untuk: Kalo kamu bingung sama problem kamu.</p>
+                <button class="btn-claim" onclick="openModal(this)">KLAIM SEKARANG</button>
+            </div>
+        </div>
+        <div class="coupon">
+            <div class="coupon-header">VOUCHER #004</div>
+            <div class="coupon-body">
+                <i class="fas fa-film fa-3x" style="color:#a29bfe"></i>
+                <h2>Movie Marathon</h2>
+                <p>Valid untuk: Nemenin nonton film tanpa protes.</p>
+                <button class="btn-claim" onclick="openModal(this)">KLAIM SEKARANG</button>
+            </div>
+        </div>
+        <div class="coupon">
+            <div class="coupon-header">VOUCHER #005</div>
+            <div class="coupon-body">
+                <i class="fas fa-crown fa-3x" style="color:#fab1a0"></i>
+                <h2>Princess Treatment</h2>
+                <p>Valid untuk: Selama PMS.</p>
+                <button class="btn-claim" onclick="openModal(this)">KLAIM SEKARANG</button>
+            </div>
+        </div>
+        <div class="coupon">
+            <div class="coupon-header">VOUCHER #006</div>
+            <div class="coupon-body">
+                <i class="fas fa-heart fa-3x" style="color:#fd79a8"></i>
+                <h2>Cuddle</h2>
+                <p>Valid untuk: Kalo lagi kangen brutal.</p>
+                <button class="btn-claim" onclick="openModal(this)">KLAIM SEKARANG</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-icon"><i class="fas fa-heart"></i></div>
+            <h3 id="modalTitle">Konfirmasi Klaim:</h3>
+            <div id="modalCouponName" class="modal-coupon-title">Nama Kupon</div>
+            <p id="modalText" class="modal-text">Yakin mau pakai kupon ini sekarang?</p>
+            <div class="modal-buttons" id="modalButtons">
+                <button class="btn-modal btn-no" onclick="closeModal()">Nanti Aja</button>
+                <button class="btn-modal btn-yes" onclick="confirmRedeem()">Yakin 100%</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let currentBtn = null; 
+
+        function openModal(btn) {
+            currentBtn = btn; 
+            const couponName = btn.parentElement.querySelector('h2').innerText;
+            document.getElementById('modalCouponName').innerText = couponName;
+            document.getElementById('modalTitle').innerText = "Konfirmasi Klaim:";
+            document.getElementById('modalTitle').style.color = "#666";
+            document.getElementById('modalText').innerText = "Yakin mau pakai kupon ini sekarang?";
+            document.getElementById('modalButtons').style.display = 'flex';
+            document.querySelector('.modal-icon').innerHTML = '<i class="fas fa-heart"></i>';
+            document.getElementById('confirmModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('confirmModal').style.display = 'none';
+            currentBtn = null;
+        }
+
+        function confirmRedeem() {
+            if (currentBtn) {
+                currentBtn.innerHTML = "TERPAKAI ✅";
+                currentBtn.style.background = "#ccc";
+                currentBtn.disabled = true;
+                currentBtn.parentElement.parentElement.style.opacity = "0.7";
+                
+                const modalTitle = document.getElementById('modalTitle');
+                modalTitle.innerText = "BERHASIL DIKLAIM! 🎉";
+                modalTitle.style.color = "var(--success-green)"; 
+                
+                const modalText = document.getElementById('modalText');
+                modalText.innerText = "Screenshot layar ini dan kirim ke aku sebagai bukti ya! 🥰";
+                document.querySelector('.modal-icon').innerHTML = '<i class="fas fa-check-circle" style="color:var(--success-green)"></i>';
+                document.getElementById('modalButtons').style.display = 'none';
+
+                setTimeout(() => {
+                    closeModal();
+                }, 4000);
+            }
+        }
+
+        window.onclick = function(event) {
+            let modal = document.getElementById('confirmModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Our Bucket List ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-blue: #5a9cec;
+            --deep-blue: #4a69bd;
+            --bg-color: #f5f6fa;
+            --danger: #ff7675;
+            --success: #2ecc71;
+            --text-color: #2d3436;
+        }
+
+        body {
+            background-color: var(--bg-color); 
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+            font-family: 'Patrick Hand', cursive;
+            margin: 0; padding: 0;
+            min-height: 100vh; 
+            width: 100%;
+            display: flex; flex-direction: column; align-items: center;
+            color: var(--text-color);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .navbar {
+            position: fixed; top: 0; left: 0; width: 100%;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(5px);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .nav-brand {
+            font-family: 'Nunito', sans-serif;
+            font-weight: bold;
+            color: var(--deep-blue);
+            text-decoration: none;
+            display: flex; align-items: center; gap: 8px;
+            font-size: 1rem;
+        }
+
+        .nav-actions { position: relative; }
+
+        .btn-icon {
+            background: none; border: none;
+            font-size: 1.2rem; color: var(--deep-blue);
+            cursor: pointer; padding: 8px;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+        .btn-icon:hover, .btn-icon:active { background: #eee; }
+
+        .settings-menu {
+            position: absolute; top: 50px; right: 0;
+            background: white; border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            width: 180px;
+            display: none; flex-direction: column;
+            overflow: hidden;
+            animation: fadeIn 0.2s ease;
+        }
+        .settings-menu.active { display: flex; }
+        
+        .menu-item {
+            padding: 12px 15px; border: none; background: white;
+            text-align: left; font-family: 'Nunito', sans-serif;
+            cursor: pointer; font-size: 0.9rem; color: #555;
+            display: flex; align-items: center; gap: 10px;
+            transition: 0.2s; border-bottom: 1px solid #f0f0f0;
+        }
+        .menu-item:last-child { border-bottom: none; }
+        .menu-item:hover { background: #f8f9fa; color: var(--primary-blue); }
+        .menu-item i { width: 20px; text-align: center; }
+
+        .paper {
+            background: white; 
+            padding: 40px 30px 40px 50px; 
+            width: 100%; max-width: 600px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
+            border-radius: 2px;
+            position: relative; 
+            margin: 90px auto 100px; 
+            background-image: linear-gradient(#e1e8ed 1px, transparent 1px);
+            background-size: 100% 35px; 
+            line-height: 35px;
+            box-sizing: border-box;
+        }
+
+        .paper::before {
+            content: ''; position: absolute; top: 0; bottom: 0; left: 40px;
+            border-left: 2px solid #ff7675;
+        }
+
+        .holes {
+            position: absolute; left: 10px; top: 0; bottom: 0; width: 20px;
+            display: flex; flex-direction: column; justify-content: space-evenly;
+        }
+        .hole { width: 15px; height: 15px; background: var(--bg-color); border-radius: 50%; box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1); }
+
+        h1 { 
+            text-align: center; color: var(--deep-blue); font-size: 2.2rem; 
+            margin-top: 0; margin-bottom: 20px; line-height: 1.2;
+        }
+
+        .list-container { min-height: 200px; }
+
+        .list-item {
+            display: flex; align-items: flex-start; gap: 12px; 
+            padding-left: 10px;
+            font-size: 1.2rem; color: #555; cursor: pointer;
+            min-height: 35px; 
+            position: relative;
+        }
+        
+        .custom-checkbox {
+            appearance: none; -webkit-appearance: none;
+            width: 22px; height: 22px; 
+            border: 2px solid var(--primary-blue); border-radius: 6px;
+            margin-top: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; background: white;
+        }
+        .custom-checkbox:checked { background: var(--primary-blue); }
+        .custom-checkbox:checked::after { content: '✔'; font-size: 14px; color: white; }
+
+        .item-text { flex: 1; word-break: break-word; line-height: 1.4; padding-top: 2px; }
+        .list-item.checked .item-text { text-decoration: line-through; color: #b2bec3; }
+        
+        .delete-btn { 
+            color: #fab1a0; cursor: pointer; transition: 0.2s; 
+            font-size: 1rem; margin-top: 8px; padding: 5px;
+        }
+        .delete-btn:hover { color: var(--danger); transform: scale(1.1); }
+
+        .bottom-bar {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background: white; padding: 10px 15px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            display: flex; gap: 10px; align-items: center;
+            z-index: 1000; border-top: 1px solid #eee;
+            box-sizing: border-box;
+            padding-bottom: max(10px, env(safe-area-inset-bottom)); 
+        }
+
+        .input-dream {
+            flex: 1; padding: 12px 20px; 
+            border: 2px solid #eee; border-radius: 50px;
+            font-family: 'Nunito', sans-serif; font-size: 1rem;
+            outline: none; transition: 0.3s;
+            background: #f9f9f9;
+        }
+        .input-dream:focus { border-color: var(--primary-blue); background: white; }
+
+        .btn-add {
+            background: var(--primary-blue); color: white; border: none;
+            width: 45px; height: 45px; border-radius: 50%;
+            font-size: 1.2rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 10px rgba(90, 156, 236, 0.4);
+            transition: 0.2s; flex-shrink: 0;
+        }
+        .btn-add:hover { transform: scale(1.05); background: var(--deep-blue); }
+        .btn-add:active { transform: scale(0.95); }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 2000;
+            display: none; justify-content: center; align-items: center; padding: 20px;
+            backdrop-filter: blur(3px);
+            box-sizing: border-box;
+        }
+        .modal-content {
+            background: white; padding: 25px; border-radius: 20px; width: 100%; max-width: 320px;
+            text-align: center; font-family: 'Nunito', sans-serif;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .modal-title { font-size: 1.3rem; margin: 10px 0; color: var(--text-color); font-weight: 800; }
+        .modal-text { color: #636e72; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5; }
+        
+        .modal-buttons { display: flex; gap: 10px; justify-content: center; }
+        .btn-modal { padding: 10px 20px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; flex: 1; font-family: 'Nunito', sans-serif; font-size: 0.9rem; }
+        .btn-cancel { background: #dfe6e9; color: #636e72; }
+        .btn-confirm { background: var(--danger); color: white; }
+        .btn-ok { background: var(--primary-blue); color: white; }
+
+        @media (max-width: 600px) {
+            .navbar { padding: 0 15px; height: 55px; }
+            .paper { 
+                width: 92%; 
+                margin-top: 75px; 
+                padding: 30px 20px 30px 45px; 
+            }
+            .paper::before { left: 35px; } 
+            .holes { left: 8px; }
+            
+            h1 { font-size: 1.8rem; margin-bottom: 15px; }
+            .list-item { font-size: 1.1rem; gap: 10px; }
+            .delete-btn { opacity: 1; color: #fab1a0; } 
+            
+            .bottom-bar { padding: 8px 12px; padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+            .input-dream { font-size: 0.95rem; padding: 10px 15px; }
+            .btn-add { width: 40px; height: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="nav-brand">
+            <i class="fas fa-arrow-left"></i> Home
+        </a>
+        <div class="nav-actions">
+            <button class="btn-icon" onclick="toggleMenu()" title="Pengaturan">
+                <i class="fas fa-cog"></i>
+            </button>
+            
+            <div id="settings-menu" class="settings-menu">
+                <button class="menu-item" onclick="downloadData()">
+                    <i class="fas fa-download" style="color:var(--success)"></i> Backup (Simpan)
+                </button>
+                <button class="menu-item" onclick="triggerRestore()">
+                    <i class="fas fa-history" style="color: #f39c12"></i> Restore (Pulihkan)
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="paper">
+        <div class="holes">
+            <div class="hole"></div><div class="hole"></div><div class="hole"></div>
+            <div class="hole"></div><div class="hole"></div><div class="hole"></div>
+        </div>
+
+        <h1>Our Wishlist ✈️</h1>
+        
+        <div id="list-container" class="list-container">
+            </div>
+    </div>
+
+    <div class="bottom-bar">
+        <input type="text" id="new-dream" class="input-dream" placeholder="Tulis mimpi baru..." onkeypress="handleEnter(event)">
+        <button class="btn-add" onclick="addItem()">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+
+    <input type="file" id="file-input" accept=".json" style="display: none;" onchange="importData(event)">
+
+    <div id="confirm-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div style="font-size: 3rem; color: #ff7675; margin-bottom: 10px;">
+                <i class="fas fa-trash-alt"></i>
+            </div>
+            <h3 class="modal-title">Hapus Wishlist?</h3>
+            <p class="modal-text">Yakin mau hapus Wishlist ini?<br>Nanti nyesel loh.</p>
+            <div class="modal-buttons">
+                <button class="btn-modal btn-cancel" onclick="closeModal()">Batal</button>
+                <button class="btn-modal btn-confirm" onclick="confirmDelete()">Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="alert-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div style="font-size: 3rem; color: #5a9cec; margin-bottom: 10px;">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 class="modal-title" id="alert-title">Info</h3>
+            <p class="modal-text" id="alert-msg">Pesan</p>
+            <div class="modal-buttons">
+                <button class="btn-modal btn-ok" onclick="document.getElementById('alert-modal').style.display='none'">Oke</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const defaultBucketList = [
+            { text: "Nonton Film Horor Berdua", checked: true },
+            { text: "Pergi ke Pantai pas Sunset", checked: true },
+            { text: "Main Billiar Bareng", checked: true },
+            { text: "Ke Pasar Bareng", checked: true },
+            { text: "Main PS Bareng", checked: true },
+            { text: "Photobooth Bareng", checked: true },
+            { text: "Rayain Tahun Baru Bareng", checked: true },
+            { text: "Ke Petshop Bareng", checked: true },
+            { text: "Traveling ke luar kota", checked: false },
+            { text: "Traveling ke luar negeri", checked: false },
+            { text: "Ke Gramedia Bareng", checked: false },
+            { text: "Nabung Bareng", checked: false },
+            { text: "Menua Bersama 👴👵", checked: false }
+        ];
+
+        let bucketList = [];
+        let deleteTargetIndex = null;
+        const listContainer = document.getElementById('list-container');
+        const confirmModal = document.getElementById('confirm-modal');
+        const alertModal = document.getElementById('alert-modal');
+
+        function init() {
+            const localData = localStorage.getItem('bucketData');
+            bucketList = localData ? JSON.parse(localData) : defaultBucketList;
+            renderList();
+
+            document.addEventListener('click', function(e) {
+                const menu = document.getElementById('settings-menu');
+                const btn = document.querySelector('.btn-icon');
+                if (!menu.contains(e.target) && !btn.contains(e.target)) {
+                    menu.classList.remove('active');
+                }
+            });
+        }
+
+        function toggleMenu() {
+            document.getElementById('settings-menu').classList.toggle('active');
+        }
+
+        function renderList() {
+            listContainer.innerHTML = '';
+            if (bucketList.length === 0) {
+                listContainer.innerHTML = '<div style="text-align:center; color:#b2bec3; margin-top:50px; font-family:Nunito;">Belum ada mimpi...<br>Ayo tulis sekarang! ✨</div>';
+                return;
+            }
+
+            bucketList.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = `list-item ${item.checked ? 'checked' : ''}`;
+                
+                div.innerHTML = `
+                    <input type="checkbox" class="custom-checkbox" 
+                        ${item.checked ? 'checked' : ''} 
+                        onchange="toggleCheck(${index})">
+                    <span class="item-text" onclick="toggleCheck(${index})">${item.text}</span>
+                    <i class="fas fa-times delete-btn" onclick="requestDelete(${index})"></i>
+                `;
+                listContainer.appendChild(div);
+            });
+        }
+
+        function addItem() {
+            const input = document.getElementById('new-dream');
+            const text = input.value.trim();
+            if (text) {
+                bucketList.push({ text: text, checked: false });
+                input.value = '';
+                saveToLocal();
+                renderList();
+                setTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }), 100);
+            } else {
+                showAlert("Kosong?", "Isi dulu mimpinya dong! 🥺");
+            }
+        }
+
+        function toggleCheck(index) {
+            bucketList[index].checked = !bucketList[index].checked;
+            saveToLocal();
+            renderList();
+        }
+
+        function requestDelete(index) {
+            deleteTargetIndex = index;
+            confirmModal.style.display = 'flex';
+        }
+
+        function confirmDelete() {
+            if (deleteTargetIndex !== null) {
+                bucketList.splice(deleteTargetIndex, 1);
+                saveToLocal();
+                renderList();
+                deleteTargetIndex = null;
+            }
+            closeModal();
+        }
+
+        function closeModal() {
+            confirmModal.style.display = 'none';
+        }
+
+        function saveToLocal() {
+            localStorage.setItem('bucketData', JSON.stringify(bucketList));
+        }
+
+        function downloadData() {
+            toggleMenu(); 
+            const dataStr = JSON.stringify(bucketList, null, 4);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', 'bucket-list-backup.json');
+            linkElement.click();
+            showAlert("Berhasil Disimpan!", "File backup sudah didownload. Simpan baik-baik ya! 📂");
+        }
+
+        function triggerRestore() {
+            toggleMenu(); 
+            document.getElementById('file-input').click();
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const parsedData = JSON.parse(e.target.result);
+                    if (Array.isArray(parsedData)) {
+                        bucketList = parsedData;
+                        saveToLocal();
+                        renderList();
+                        showAlert("Berhasil!", "Bucket list berhasil dikembalikan! 🎉");
+                    } else {
+                        showAlert("Gagal", "Format file salah.");
+                    }
+                } catch (err) {
+                    showAlert("Error", "File rusak atau tidak terbaca.");
+                }
+                event.target.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+        function showAlert(title, msg) {
+            document.getElementById('alert-title').innerText = title;
+            document.getElementById('alert-msg').innerText = msg;
+            alertModal.style.display = 'flex';
+        }
+
+        function handleEnter(e) {
+            if(e.key === 'Enter') addItem();
+        }
+
+        window.onclick = function(event) {
+            if (event.target == confirmModal) closeModal();
+            if (event.target == alertModal) alertModal.style.display = 'none';
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>

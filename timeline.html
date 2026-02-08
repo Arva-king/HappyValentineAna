@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jejak Langkah Kita 💙</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css"> 
+    <style>
+        body { padding: 20px; background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png'); }
+        .nav-back {
+            position: fixed; top: 20px; left: 20px; z-index: 100;
+            background: white; color: var(--primary-blue); border: 2px solid var(--primary-blue);
+            padding: 8px 15px; border-radius: 50px; text-decoration: none; font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s;
+        }
+        .nav-back:hover { background: var(--primary-blue); color: white; }
+        .timeline { position: relative; max-width: 800px; margin: 40px auto; }
+        .timeline::after {
+            content: ''; position: absolute; width: 4px; background-color: #dbeaf9;
+            top: 0; bottom: 0; left: 50%; margin-left: -2px; border-radius: 2px;
+        }
+        .container-tl {
+            padding: 10px 40px; position: relative; width: 50%; box-sizing: border-box;
+        }
+        .left { left: 0; text-align: right; }
+        .right { left: 50%; }
+        .container-tl::after {
+            content: '💙'; position: absolute; width: 30px; height: 30px;
+            right: -17px; background: white; border: 4px solid var(--primary-blue);
+            top: 15px; border-radius: 50%; z-index: 1; display: flex; align-items: center; justify-content: center; font-size: 12px;
+        }
+        .right::after { left: -17px; }
+        .content {
+            padding: 20px; background: white; border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-bottom: 4px solid var(--primary-blue);
+        }
+        h2 { font-family: var(--font-hand); color: var(--primary-blue); margin: 0 0 5px 0; }
+        .date { font-size: 0.85rem; color: #999; font-weight: bold; display: block; margin-bottom: 10px; }
+        @media (max-width: 600px) {
+            .timeline::after { left: 31px; }
+            .container-tl { width: 100%; padding-left: 70px; padding-right: 25px; text-align: left; }
+            .left, .right { left: 0; }
+            .left::after, .right::after { left: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-elements" id="bg-elements"></div>
+    <a href="index.html" class="nav-back"><i class="fas fa-arrow-left"></i> Home</a>
+
+    <header class="hero" style="min-height: auto; margin-bottom: 40px; margin-top: 40px;">
+        <h1 class="main-title" style="font-size: 3rem;">Jejak Kita</h1>
+        <p class="hero-text">Setiap momen bersamamu adalah favoritku.</p>
+    </header>
+
+    <div class="timeline">
+        <div class="container-tl left">
+            <div class="content">
+                <span class="date">27 Oktober 2025</span>
+                <h2>Awal Cerita</h2>
+                <p>Hari dimana kita memutuskan untuk memulai perjalanan ini bersama.</p>
+            </div>
+        </div>
+        <div class="container-tl right">
+            <div class="content">
+                <span class="date">11 December 2025</span>
+                <h2>Happy Birthday</h2>
+                <p>Merayakan hari ulang tahun Ava. Love you! 💙</p>
+            </div>
+            </div>
+        <div class="container-tl left">
+            <div class="content">
+                <span class="date">14 Februari 2026</span>
+                <h2>Happy Valentine</h2>
+                <p>Merayakan hari Valentine. Love you! 💙</p>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
